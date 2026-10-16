@@ -49,14 +49,12 @@ class SafetyGate:
         summary = conservative_thyroid_summary(store.measurements, store.evidence)
         if summary is None:
             summary = conservative_measurement_summary(store.measurements)
-        lines = [
-            "Conservative source-derived summary (automatic validation did not approve the generated draft):",
-            summary,
-        ]
-        supported = [item for item in claims if item.status == VerificationStatus.SUPPORTED]
-        if supported:
-            lines.append("Supported source statements:")
-            lines.extend(f"- {item.claim.text}" for item in supported)
-        lines.append("Human review is required for unsupported, conflicting, or uncertain information.")
+        lines = [summary]
+        lines.extend(
+            [
+                "",
+                "Human review is needed for any unsupported, conflicting, or uncertain information.",
+            ]
+        )
         issue_count = len(blocking) + len(omitted_abnormal)
         return ValidatedOutput("\n".join(lines), False, True, f"{issue_count} verification or abnormal-measurement retention check(s) required the fallback.")

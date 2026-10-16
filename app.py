@@ -259,10 +259,20 @@ if uploaded:
         if st.button("Generate validated summary", type="primary"):
             with st.spinner("Creating and verifying a hierarchical summary…"):
                 result = create_summary(document)
-            st.subheader("Validated summary" if result.output.is_validated else "Conservative fallback")
-            st.write(result.output.text)
+            st.subheader(
+                "Validated summary"
+                if result.output.is_validated
+                else "Conservative source-based summary"
+            )
+            if result.output.used_fallback:
+                st.info(
+                    "Automatic checks could not verify the generated draft. "
+                    "This summary is based on information extracted from the report."
+                )
+            st.markdown(result.output.text)
             if result.output.reason:
-                st.warning(result.output.reason)
+                with st.expander("Automatic check details"):
+                    st.caption(result.output.reason)
             with st.expander("Claim verification"):
                 st.dataframe([{"Claim": item.claim.text, "Status": item.status.value, "Evidence IDs": ", ".join(item.evidence_ids), "Warnings": "; ".join(item.warnings)} for item in result.claims], use_container_width=True)
         st.subheader("Ask about this document")
