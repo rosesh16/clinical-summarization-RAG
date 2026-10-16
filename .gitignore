@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Local data and generated files
+data/*
+!data/.gitkeep
+artifacts/*
+!artifacts/.gitkeep
+evaluation/results/*
+!evaluation/results/.gitkeep
+PDFs/
+
+# Model caches, if stored inside the repository
+.cache/
+models/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
